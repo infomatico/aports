@@ -1,7 +1,7 @@
 # Contributor: Taner Tas <taner76@gmail.com>
 # Maintainer: Taner Tas <taner76@gmail.com>
 pkgname=palemoon
-pkgver=27.9.2
+pkgver=27.9.3
 pkgrel=0
 pkgdesc="Goanna-based web browser focusing on efficiency and customization"
 url="https://www.palemoon.org"
@@ -10,7 +10,9 @@ license="MPL-2.0"
 depends=""
 makedepends="unzip zip coreutils python2 yasm autoconf2.13 alsa-lib-dev
 	gtk+2.0-dev dbus-glib-dev libxt-dev startup-notification-dev
-	linux-headers fts-dev bsd-compat-headers
+	linux-headers fts-dev bsd-compat-headers nspr-dev nss-dev
+	libjpeg-turbo-dev libevent-dev libvpx-dev icu-dev libwebp-dev
+	sqlite-dev hunspell-dev
 	"
 install="$pkgname.post-install"
 source="$pkgname-$pkgver.tar.gz::https://github.com/MoonchildProductions/Pale-Moon/archive/${pkgver}_Release.tar.gz
@@ -23,8 +25,9 @@ source="$pkgname-$pkgver.tar.gz::https://github.com/MoonchildProductions/Pale-Mo
 	mozalloc-cstdlib.patch
 	mozilla-build-arm.patch
 	musl-basic.patch
-	rhbz-966424.patch
+	fix-lcrmf.patch
 	x86-musl-fix.patch
+	rhbz-966424.patch
 	"
 builddir="$srcdir/Pale-Moon-${pkgver}_Release"
 _pmappdir=/usr/lib/$pkgname-$pkgver
@@ -71,8 +74,8 @@ package() {
 	ln -s /usr/lib/$pkgname-$pkgver/browser/icons/mozicon128.png "$pkgdir/usr/share/icons/hicolor/128x128/apps/palemoon.png"
 	rm -f "$pkgdir"/usr/lib/$pkgname-$pkgver/palemoon-bin
 }
-sha512sums="372b5bb5e4340f445d9e2a9334c1cbfb7c8e7465cbc8db695a632d63a7923c5a909091293b654a0f6299ab671f4ca2ab61f4b19be667df4a5b1d50c6b409cf64  palemoon-27.9.2.tar.gz
-56b68b3d9c85ee609720a7f948069ec7e7366fbda054a4453144e7983c6b9ab09ab10adae2ef1df8997f673c6fdd7a6819c7079112b8a0fec9ec23220728e5fe  mozconfig
+sha512sums="7e6e5171eeae2e6a05b34b41e25694b30bca90fe03603a77cbf49ae5763fbb98c47c7b2259dbc61d3d9ecf750353b4137dbe9f3048016894357286277f65c8a8  palemoon-27.9.3.tar.gz
+f29f9ccdcf5b947e290fb7b9ba5d0d649922ccc87e557e1a87e1683f1a071fa5b68d080e80015d17711da85c624214919adfa72a5077db5f0add976b9cbd1a2d  mozconfig
 a4c2dd0c2a4df735174a472e20a5cafba9ab0b298177e437ced2afcac79cdc8c1395855b4f5c5987f16eb7ca92acd0370600a0e05ba7a983302fa54cdcf76cf0  bugzilla-1274732.patch
 87b1120700aca026bb4b8968ae661f946050a7357bc3960746b00268e252aa775a6d2e4d4f2b83fe402c8b42a39565de721990198b28d618a778a15219629d5b  disable-hunspell_hooks.patch
 2a967e4619fd89a046bd40be7fdcef646fcb1eba5e47afc96aa1d59c25bcc8747cb07baee6c11f3b803db0981aced181534b806778e4d21e74958f5f4d74c784  fix-fortify-system-wrappers.patch
@@ -81,5 +84,6 @@ fbe9e98ddc7fe2b3f74adc3b7e4fbaaad46fd38c8d073b27492d5f6dc00b7901363a27cd3cea8576
 eb2b343dc3ce22e2a06c7bd1d342ad7af28abe95b7d2d16fd5f335ca9867dd6f5713c224d0a0c5064960d425c6c2e9af567cd0d16fab7078aeb39acc37abd434  mozalloc-cstdlib.patch
 e2835cb06d165198c22ed2e3e9832cc978550f9262c456f5e9e3d04db83cd938e3d06fdeb75a76c7787ae1200401d04b6cb4c52dd791af6094c3c718f93a56b8  mozilla-build-arm.patch
 e1db5137d2a1ca6e110b0f424b48b9438c2eaa3d126fe45ecf1e39fc333e137e52fd992505e1a6ad682bc8826181cb52f695ea9434361006c938c44a6f247a3e  musl-basic.patch
-4bb25a58a4087b2abdc17f1ef107bc639e320e49bf80ed567cb45ff0a4f81cc37c215d9619b612ac5a595cf8463426a14a43de6d52a02f1b2282651b58c40bc0  rhbz-966424.patch
-57a78b2822db25ac0f3db44a401a2f7fb29ced83f037ffbdbd3488e42edd4eb89d75d917c10344432c2505f85f8d86921fd5015b1854ecd7d270fd778d73acef  x86-musl-fix.patch"
+7dd7352692c19db8ce974440bfdf3fee74626d30d3782c9b255c99dbf2b4893607edc19001b5b38e9d38a9cd7985298cd37ab38493c98881223701c616881d78  fix-lcrmf.patch
+57a78b2822db25ac0f3db44a401a2f7fb29ced83f037ffbdbd3488e42edd4eb89d75d917c10344432c2505f85f8d86921fd5015b1854ecd7d270fd778d73acef  x86-musl-fix.patch
+4bb25a58a4087b2abdc17f1ef107bc639e320e49bf80ed567cb45ff0a4f81cc37c215d9619b612ac5a595cf8463426a14a43de6d52a02f1b2282651b58c40bc0  rhbz-966424.patch"
