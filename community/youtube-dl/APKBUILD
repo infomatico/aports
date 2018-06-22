@@ -3,7 +3,7 @@
 # Contributor: Timo Teräs <timo.teras@iki.fi>
 # Maintainer: Timo Teräs <timo.teras@iki.fi>
 pkgname=youtube-dl
-pkgver=2018.05.26
+pkgver=2018.06.19
 pkgrel=0
 pkgdesc="Command-line program to download videos from YouTube"
 url="https://youtube-dl.org"
@@ -60,4 +60,4 @@ fishcomp() {
 		"$subpkgdir"/usr/share/fish/completions/
 }
 
-sha512sums="caf02a9f78021ee16775ed1868607ca127ec1a233cdb053f586aa99edc40f674450aa4758f0595c1e93f48ac6352e56dec4479b8d45de9f7a3614a2524bd131f  youtube-dl-2018.05.26.tar.gz"
+sha512sums="04c8273afd363a7a9719b59e7f61d416b8b627a69f6eb28d5551cc81e105e002d20071b8eed32e83d3cd3f16280fe8401a2e53394b3b99abe45659444c8037c2  youtube-dl-2018.06.19.tar.gz"

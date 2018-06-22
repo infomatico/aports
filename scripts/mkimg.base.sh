@@ -92,7 +92,7 @@ syslinux_gen_config() {
 	echo "PROMPT ${syslinux_prompt:-1}"
 	echo "DEFAULT ${kernel_flavors%% *}"
 
-	local _f _kf
+	local _f
 	for _f in $kernel_flavors; do
 		if [ -z "${xen_params+set}" ]; then
 			cat <<- EOF
@@ -110,14 +110,14 @@ syslinux_gen_config() {
 			LABEL $_f
 				MENU LABEL Xen/Linux $_f
 				KERNEL /boot/syslinux/mboot.c32
-				APPEND /boot/xen.gz ${xen_params} --- /boot/vmlinuz$_kf $initfs_cmdline $kernel_cmdline --- /boot/initramfs-$_f
+				APPEND /boot/xen.gz ${xen_params} --- /boot/vmlinuz-$_f $initfs_cmdline $kernel_cmdline --- /boot/initramfs-$_f
 			EOF
 		fi
 	done
 }
 
 grub_gen_config() {
-	local _f _kf
+	local _f
 	echo "set timeout=2"
 	for _f in $kernel_flavors; do
 		if [ -z "${xen_params+set}" ]; then
@@ -255,8 +255,18 @@ create_image_iso() {
 	if [ "$ARCH" = ppc64le ]; then
 		grub-mkrescue --output ${ISO} ${DESTDIR} -follow-links \
 			-sysid LINUX \
-			-volid "alpine-$PROFILE $RELEASE $ARCH"
+			-volid "alpine-${profile_abbrev:-$PROFILE} $RELEASE $ARCH"
 	else
+		if [ "$ARCH" = s390x ]; then
+			printf %s "$initfs_cmdline $kernel_cmdline " > ${WORKDIR}/parmfile
+			for _f in $kernel_flavors; do
+				mk-s390-cdboot -p ${WORKDIR}/parmfile \
+					-i ${DESTDIR}/boot/vmlinuz-$_f \
+					-r ${DESTDIR}/boot/initramfs-$_f \
+					-o ${DESTDIR}/boot/merged.img
+			done
+			iso_opts="$iso_opts -no-emul-boot -eltorito-boot boot/merged.img"
+		fi
 		xorrisofs \
 			-quiet \
 			-output ${ISO} \
@@ -264,7 +274,7 @@ create_image_iso() {
 			-joliet \
 			-rational-rock \
 			-sysid LINUX \
-			-volid "alpine-$PROFILE $RELEASE $ARCH" \
+			-volid "alpine-${profile_abbrev:-$PROFILE} $RELEASE $ARCH" \
 			$_isolinux \
 			$_efiboot \
 			-follow-links \
@@ -280,7 +290,7 @@ create_image_targz() {
 profile_base() {
 	kernel_flavors="vanilla"
 	initfs_cmdline="modules=loop,squashfs,sd-mod,usb-storage quiet"
-	initfs_features="ata base bootchart cdrom squashfs ext2 ext3 ext4 mmc raid scsi usb virtio"
+	initfs_features="ata base bootchart cdrom squashfs ext4 mmc raid scsi usb virtio"
 	grub_mod="disk part_gpt part_msdos linux multiboot2 normal configfile search search_label efi_uga efi_gop fat iso9660 cat echo ls test true help gzio"
 	apks="alpine-base alpine-mirrors busybox kbd-bkeymaps chrony e2fsprogs network-extras libressl openssh tzdata"
 	apkovl=

@@ -1,10 +1,10 @@
 # Contributor: Carlo Landmeter <clandmeter@gmail.com>
 # Maintainer: Carlo Landmeter <clandmeter@gmail.com>
 pkgname=gitea
-pkgver=1.4.0
+pkgver=1.4.2
 pkgrel=0
 pkgdesc="A self-hosted Git service written in Go"
-url="http://gitea.io/"
+url="https://gitea.io"
 arch="all"
 license="MIT"
 depends="git"
@@ -67,7 +67,7 @@ check() {
 	"$builddir"/$pkgname help > /dev/null
 }
 
-sha512sums="d51a47374ce02a542e491079111a3f770db79017004a22b6ebeefc0c65c04036f992534a61d241846e35b7d0da778db4c3de73a151e70adca78966178448c3d1  gitea-1.4.0.tar.gz
+sha512sums="ab4cd43753afffec53a46c093bf92a9c31a633f9c8b5d730e8782eceee1e581cce673945005aaa6a94428d8acfcf2e6618f3abcc49f2ac5439aa8a4fb910b550  gitea-1.4.2.tar.gz
 a7c70a144dc0582d6230e59ff717023fddcac001a6a9c895b46a0df1fbd9639453b2f5027d47dad21f442869c145dbc801eda61b6c50a2dd8103f562b8569009  gitea.initd
 27a202006d6e8d4146659f6356eaa99437f9f596dd369e9430d64b859bc6a1ad16091eef09232aa385fe1bf8ca94bbdf31b94975068220ad10338cded384f726  gitea.ini
 a49e6d820e2ca4c8d583b31a8eb02d8bf3cb7a96ac4f82196fbeb4de0ed22e8e1f64b0f2a6edabed94a07762df0788a2a29dbd58db5213ea6c83c9d0bd7ba24d  allow-to-set-version.patch"

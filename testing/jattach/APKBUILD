@@ -1,0 +1,24 @@
+# Contributor: Andrey Pustovetov <andrey.pustovetov@gmail.com>
+# Maintainer: Andrey Pustovetov <andrey.pustovetov@gmail.com>
+pkgname=jattach
+pkgver=1.2
+pkgrel=0
+pkgdesc="JVM dynamic attach utility"
+url="https://github.com/apangin/jattach"
+arch="all"
+license="Apache-2.0"
+options="!check" # upstream doesn't have a test suite
+source="$pkgname-$pkgver.tar.gz::https://github.com/apangin/$pkgname/archive/v$pkgver.tar.gz"
+builddir="$srcdir/$pkgname-$pkgver"
+
+build() {
+	cd "$builddir"
+	make
+}
+
+package() {
+	mkdir -p "$pkgdir"
+	install -Dm0755 "$builddir/build/$pkgname" "$pkgdir/usr/bin/$pkgname"
+}
+
+sha512sums="ca548a5240f7642326839fec023c7c6d90f62097ce042b4d0ed460e483d0620956593b61f963ff1b7ff40c00f37933fdb68b4ac9030831834e59e4a169ecc305  jattach-1.2.tar.gz"

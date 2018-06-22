@@ -1,7 +1,7 @@
 # Contributor: André Klitzing <aklitzing@gmail.com>
 # Maintainer: André Klitzing <aklitzing@gmail.com>
 pkgname=geth
-pkgver=1.8.8
+pkgver=1.8.11
 pkgrel=0
 pkgdesc="Official Go implementation of the Ethereum protocol"
 url="https://geth.ethereum.org/"
@@ -11,7 +11,7 @@ makedepends="go linux-headers"
 checkdepends="fuse"
 options="!check"
 source="$pkgname-$pkgver.tar.gz::https://github.com/ethereum/go-ethereum/archive/v$pkgver.tar.gz"
-builddir="$srcdir/go-ethereum"-$pkgver
+builddir="$srcdir/go-ethereum-$pkgver"
 
 build() {
 	cd "$builddir"
@@ -29,4 +29,4 @@ package() {
 	install -m755 -t "${pkgdir}"/usr/bin build/bin/*
 }
 
-sha512sums="326668e2aa5942947d1432d94be788373335f2d4a44ddb989203adec6f9f6bc78c9c3a1cc7517d7be4090fc46eb7fd7a2b98e18e62906a0bed641b75a4eb83f9  geth-1.8.8.tar.gz"
+sha512sums="f1a7f3f8a0ceaf03b87e399ac21fa6550a4c121daa209bac4b8a7f1cc7368ac3d9c40ace7d0d50c117f74e30170f34245b45bf1fadf8948694f7fe352154d9b9  geth-1.8.11.tar.gz"

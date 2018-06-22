@@ -4,7 +4,7 @@
 # Maintainer: Carlo Landmeter <clandmeter@gmail.com>
 pkgname=clamav
 pkgver=0.100.0
-pkgrel=0
+pkgrel=2
 pkgusers="clamav"
 pkggroups="clamav"
 pkgdesc="An anti-virus toolkit for UNIX eis-ng backport"
@@ -17,7 +17,7 @@ install="freshclam.pre-install
 	clamav-daemon.pre-install clamav-daemon.pre-upgrade"
 makedepends="ncurses-dev zlib-dev bzip2-dev pcre-dev linux-headers $depends_dev
 	libmilter-dev fts-dev"
-subpackages="$pkgname-doc $pkgname-dev $pkgname-lib $pkgname-libunrar
+subpackages="$pkgname-doc $pkgname-dev $pkgname-libs $pkgname-libunrar
 	$pkgname-daemon $pkgname-scanner $pkgname-db::noarch freshclam
 	$pkgname-daemon-openrc:daemon_rc:noarch freshclam-openrc:freshclam_rc:noarch
 	$pkgname-milter"
@@ -112,17 +112,10 @@ check() {
 	make check
 }
 
-lib() {
-	pkgdesc="ClamAV library"
-	replaces="clamav"
-	mkdir -p "$subpkgdir"/usr/lib
-	mv "$pkgdir"/usr/lib/libclamav.so.* \
-		"$subpkgdir"/usr/lib/
-}
-
 libunrar() {
 	pkgdesc="ClamAV unrar libraries"
 	replaces="clamav"
+	depends=
 	mkdir -p "$subpkgdir"/usr/lib
 	mv "$pkgdir"/usr/lib/libclamunrar* \
 		"$subpkgdir"/usr/lib/
@@ -131,6 +124,7 @@ libunrar() {
 freshclam() {
 	pkgdesc="Auto-updater for the Clam Antivirus scanner data-files"
 	replaces="clamav clamav-db"
+	depends=
 	mkdir -p "$subpkgdir"/usr/bin \
 		"$subpkgdir"/etc/clamav
 
@@ -150,6 +144,7 @@ freshclam_rc() {
 	pkgdesc="Auto-updater for the Clam Antivirus scanner data-files (OpenRC init scripts)"
 	install_if="freshclam=$pkgver-r$pkgrel openrc"
 	replaces="clamav freshclam"
+	depends=
 	mkdir -p "$subpkgdir"/etc/init.d \
 		"$subpkgdir"/etc/conf.d
 
@@ -222,6 +217,7 @@ daemon_rc() {
 
 milter() {
 	pkgdesc="ClamAV milter"
+	depends=
 	mkdir -p "$subpkgdir"/usr/sbin \
 		"$subpkgdir"/etc/clamav
 	mv "$pkgdir"/usr/sbin/clamav-milter \

@@ -2,7 +2,7 @@
 
 _flavor=vanilla
 pkgname=linux-${_flavor}
-pkgver=4.14.43
+pkgver=4.14.51
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
@@ -12,7 +12,7 @@ pkgdesc="Linux vanilla kernel"
 url="http://kernel.org"
 depends="mkinitfs"
 _depends_dev="perl gmp-dev elfutils-dev bash"
-makedepends="$_depends_dev sed installkernel bc linux-headers"
+makedepends="$_depends_dev sed installkernel bc linux-headers linux-firmware"
 options="!strip"
 _config=${config:-config-vanilla.${CARCH}}
 install=
@@ -160,7 +160,7 @@ _package() {
 
 # main flavor installs in $pkgdir
 package() {
-	depends="$depends linux-firmware"
+	depends="$depends linux-firmware-any"
 
 	_package vanilla "$pkgdir"
 }
@@ -224,11 +224,11 @@ sha512sums="77e43a02d766c3d73b7e25c4aafb2e931d6b16e870510c22cef0cdb05c3acb7952b8
 5373728be2b507c3db5e042e1d768740df7965078868afdc46418b1adc4cae3d8f9f1aedb59975a0f2acf8754340499354fcf97c503397a5d9886ccc9689b782  0001-HID-apple-fix-Fn-key-Magic-Keyboard-on-bluetooth.patch
 b79afa544256df295ed2a904d917efe7048aa0d30951732d0809de1dd3e423c5f0138f16a1854a95df35f850c213fbaacde87a701f5cf6ed09349907e3d54744  config-vanilla.aarch64
 251b9498b18929724b084718085709ba4f899820f3373231744918f7bc1d8d02554529ddcf249a6e952e55eb2c3d908c6fc2dacc773a44a3587e48dbdf3dd358  config-vanilla.armhf
-60939f6d5aea7f591f6fa451a33101cdfe68f12b1246b63af8bd5f865b9f8c0e86b0edcf3ec7fe71e6ba77f0ab7f766b2b417111c8ecc4e3d375c12cfb84ddb7  config-vanilla.x86
-bfe57873160d1c6c28dafc837b6bcb53df47fc2f9f6ecde8e2f1b4c66a9c474bc14a8dbfe8f4c74f762a40ff7d3207d09bbb4b44725b6d4d33540fa7095d6d54  config-vanilla.x86_64
+052ccc49fdefe0d8ed3e6119a1ab632a7b9020ea9cbb54b8055f1e45334244a3dd8534fed3bc2f3f9a3bcb9363795d48fc4c6c48cf7032f6202b09971dc9e181  config-vanilla.x86
+41729137917ee5e06a76ce2c2b4d1d153eb493efb7a9cd7881367934db9ad8d9a9251071923d8d26f1e7a030d702f4dd66e24d4d26a294f957db27bb42f9d40d  config-vanilla.x86_64
 03a14f009996319fc24fc1a4eae26e250f7cf6213bcdce0f82c3d0b4b54b81517f55e0445df0460d30f6b61f22519f04ac219ce3017c7cf72acd14c43e781a8b  config-vanilla.ppc
-e45f9e547ba193e2096e71b0e4a4632252eecfcc593b87446f31cd97a4e4792ab36b270e1c5f6c42d8f53a0e46b3239cd437fcec36e4c20ca98033b551bcad24  config-vanilla.ppc64le
+f60b743952c080a4f8e61930034e2c8f173fbd321d5ebdec92023319c5f6335ed3e1ba04921b6e83f938fd2d32ca29aac14747650cd96608c69053764164ce35  config-vanilla.ppc64le
 10ecea3e0a101a898e347a42d74f9a3d8f226153cf487e1d65f59fb557b6fdaccab0d2ad6cf705c6cdeb5ed053eb7c5edecc655b3700e4ba237e965c0b6e417e  config-vanilla.s390x
 408a37fdf7dd467c1a874b0de54e72379378e2f4338a964fe2a50d80ddbb8916cb3bd23f000c6f57727384a24e011e06d5f4af6017453391e4cc60fd57892bda  config-virt.x86
 c6a7e5f405739856ceab097f878bcf102597ba33a375b8270ba1f0c59784204a587e0d0dbbbd1cd0fc52829552bf147019f7590bdc7034a0881ef5b327c40013  config-virt.x86_64
-51e7359df7018b5f9d8d1c9fac55f3519df1700ac0dca2b625a08853f45c108511c13d256ea8b2f8af5159748059075cf63e451ff39e9b2c10c5e2df25dfa2ed  patch-4.14.43.xz"
+978da11497f5abc1ed675ec5ce48d929c72ee2772fd78ec5d4d5c8554b28a8eee0f0989f84c2e68abf02b3aa36b0e68cabac210aba453478d3e180a2d4d9e2f7  patch-4.14.51.xz"

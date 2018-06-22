@@ -58,12 +58,14 @@ log() {
 # create new_release
 create_release() {
 	local release="$1"
-	local release_deps="abuild apk-tools alpine-conf busybox fakeroot xorriso rsync
-				squashfs-tools acct mkinitfs mtools"
+	local release_deps="abuild apk-tools alpine-conf busybox fakeroot
+		xorriso rsync openssh-client squashfs-tools acct mkinitfs
+		mtools"
 	case "$arch" in
 	aarch64|arm*) release_deps="$release_deps mtools grub-efi";;
 	x86*) release_deps="$release_deps syslinux mtools grub-efi";;
 	ppc64le) release_deps="$release_deps grub grub-ieee1275";;
+	s390x) release_deps="$release_deps s390-tools";;
 	esac
 
 	cd "$aports"
@@ -73,7 +75,7 @@ create_release() {
 
 	if $use_network; then
 		ssh $upload_host mkdir -p "${upload_iso#${upload_host}:}"
-		rsync --bwlimit=8192 -ruv "$releasedir"/* "$upload_iso" || return 1
+		rsync -ruva $rsync_opts "$releasedir"/* "$upload_iso" || return 1
 	fi
 	abuild-apk del .alpine-release-deps
 }
@@ -171,7 +173,7 @@ while true; do
 
 		log "uploading packages to $repo"
 		$use_network && for i in $upload_pkg; do
-			rsync -rui --delete-delay --delay-updates \
+			rsync -rui --delete-delay --delay-updates $rsync_opts \
 				$repo/$arch $i/$repo/ > /tmp/upload-$repo
 			if [ $? -ne 0 ]; then
 				rc=1

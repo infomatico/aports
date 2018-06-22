@@ -1,0 +1,35 @@
+# Maintainer: Breno Leitao <breno.leitao@gmail.com>
+pkgname=librtas
+pkgver=2.0.1
+pkgrel=0
+pkgdesc="Librtas provides a set of libraries that access Run-Time Abstraction Services (RTAS)"
+url="https://github.com/nfont/librtas"
+arch="ppc64le"
+options="!check"
+license="LGPL"
+makedepends="autoconf automake libtool linux-headers"
+subpackages="$pkgname-dev $pkgname-doc"
+source="$pkgname-$pkgver.tar.gz::https://github.com/nfont/$pkgname/archive/v$pkgver.tar.gz"
+builddir="$srcdir/$pkgname-$pkgver"
+
+prepare() {
+	default_prepare
+	cd "$builddir"
+	./autogen.sh
+}
+
+build() {
+	cd "$builddir"
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr
+	make
+}
+
+package() {
+	cd "$builddir"
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="922465aa08bc0de49ae259a2655081eb8f91dcc213475b6cac6c4740279433011699a3b50cc23941bb3275f85deec2ffefc2bf1faae51a4baf8baa067b4d6a4d  librtas-2.0.1.tar.gz"
