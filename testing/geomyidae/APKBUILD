@@ -1,0 +1,29 @@
+# Contributor: Sascha Paunovic <azarus@posteo.net>
+# Maintainer: Sascha Paunovic <azarus@posteo.net>
+pkgname=geomyidae
+pkgver=0.32
+pkgrel=0
+pkgdesc="Simple gopherd"
+url="gopher://bitreich.org/1/scm/geomyidae"
+arch="all"
+license="MIT"
+subpackages="$pkgname-doc $pkgname-openrc"
+source="ftp://bitreich.org/releases/$pkgname/$pkgname-v$pkgver.tgz"
+options="!check" # no test suite
+builddir="$srcdir/$pkgname-v$pkgver"
+
+build() {
+	cd "$builddir"
+	make
+}
+
+package() {
+	cd "$builddir"
+	make install PREFIX=/usr DESTDIR="$pkgdir"
+	install -m755 -D rc.d/Gentoo.init.d \
+		"$pkgdir"/etc/init.d/$pkgname
+	install -m755 -D rc.d/Gentoo.conf.d \
+		"$pkgdir"/etc/conf.d/$pkgname
+}
+
+sha512sums="ec60f78fee39fa476b0ca3f68a1b384e271179809e14c19b261bd75789cbe3f7c17cf38d7f9e597b8b0a7fb03595cff774b476f19916d8086797af893af3dfcc  geomyidae-v0.32.tgz"

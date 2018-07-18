@@ -1,15 +1,16 @@
 # Contributor: Fabian Affolter <fabian@affolter-engineering.ch>
 # Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
 pkgname=pytest
-pkgver=3.6.1
+pkgver=3.6.3
 pkgrel=0
 pkgdesc="A python test library"
 url="http://pytest.org"
 arch="noarch"
 license="MIT"
 depends="py3-$pkgname"
-_py2_depends="py2-py py2-six py2-attrs py2-setuptools py2-more-itertools py2-pluggy py2-funcsigs"
-_py3_depends="py3-py py3-six py3-attrs py3-more-itertools py3-pluggy"
+_py_depends="py-atomicwrites py-py py-six py-attrs py-more-itertools py-pluggy"
+_py2_depends="${_py_depends//py-/py2-} py2-setuptools py2-funcsigs"
+_py3_depends="${_py_depends//py-/py3-}"
 makedepends="python2-dev py-setuptools python3-dev $_py2_depends $_py3_depends"
 subpackages="py3-$pkgname:_py3 py2-$pkgname:_py2"
 source="https://files.pythonhosted.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz"
@@ -62,4 +63,4 @@ _py() {
 	done
 }
 
-sha512sums="38a1ccc5a915c70c66b3c9ab89e8d42a1e481ec1dfb8aa1d37b1a03d9a4fa1167e9a278a280188f30abe3ad5bb1e1a0cc74e640ae2b2d005aa3f00abc5aef957  pytest-3.6.1.tar.gz"
+sha512sums="e18d8e972cb1b05b037b9441eea5981ce036d8e2c2bab80f6e50f283df9bd08740296133990424cf78449f6d3d2fbd1d59709770aa972af99fe061583f2d79a7  pytest-3.6.3.tar.gz"

@@ -1,6 +1,6 @@
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 pkgname=feh
-pkgver=2.26
+pkgver=2.27
 pkgrel=0
 pkgdesc="Fast, lightweight image viewer which uses imlib2"
 url="https://feh.finalrewind.org"
@@ -10,7 +10,6 @@ subpackages="$pkgname-doc"
 makedepends="curl-dev giblib-dev imlib2-dev libjpeg-turbo-dev libpng-dev
 	libxinerama-dev libxt-dev"
 source="https://feh.finalrewind.org/$pkgname-$pkgver.tar.bz2"
-
 builddir="$srcdir"/$pkgname-$pkgver
 
 build() {
@@ -28,4 +27,4 @@ package() {
 		install
 }
 
-sha512sums="4fe21f2292e7433a459e9df2b23725cd487be562190747f849efa0fa4bc72f034d70e9b8c26e3be65cc254a815f09ac313ff428e442aa230ceb94c4b6499d335  feh-2.26.tar.bz2"
+sha512sums="6d9cf38e9b40291f6e7145705057a2c945b720b22d85020e265c2a158d5e4ca68cca958e2fae3d01a91bb4b2c52ebb5d2c298c41bf8ff3e4f635af7c006d0cc7  feh-2.27.tar.bz2"

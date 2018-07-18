@@ -1,9 +1,5 @@
 build_rpi_blobs() {
-	local fw
-	for fw in bootcode.bin fixup.dat start.elf ; do
-		curl --remote-time https://raw.githubusercontent.com/raspberrypi/firmware/${rpi_firmware_commit}/boot/${fw} \
-			--output "${DESTDIR}"/${fw} || return 1
-	done
+	apk fetch --quiet --stdout raspberrypi-bootloader | tar -C "${DESTDIR}" -zx --strip=1 boot/
 }
 
 rpi_gen_cmdline() {
@@ -47,6 +43,7 @@ rpi_gen_config() {
 		# uncomment line to enable serial on ttyS0 on rpi3
 		# NOTE: This fixes the core_freq to 250Mhz
 		# enable_uart=1
+		include usercfg.txt
 		EOF
 	;;
 	esac
@@ -58,28 +55,25 @@ build_rpi_config() {
 }
 
 section_rpi_config() {
-	[ -n "$rpi_firmware_commit" ] || return 0
+	[ "$hostname" = "rpi" ] || return 0
 	build_section rpi_config $( (rpi_gen_cmdline ; rpi_gen_config) | checksum )
-	build_section rpi_blobs "$rpi_firmware_commit"
+	build_section rpi_blobs
 }
 
 profile_rpi() {
 	profile_base
 	title="Raspberry Pi"
 	desc="Includes Raspberry Pi kernel.
-		Designed for RPI 1,2 and 3.
+		Designed for RPI 1, 2 and 3.
 		And much more..."
 	image_ext="tar.gz"
 	arch="aarch64 armhf"
-	# check commit log for matching commit with current rpi kernel version at:
-	# https://github.com/raspberrypi/firmware/tree/master
-	rpi_firmware_commit="eeaaf5e2b5aee29f31e989c0dddd186fb68b2144"
 	kernel_flavors="rpi"
 	case "$ARCH" in
 		armhf) kernel_flavors="$kernel_flavors rpi2";;
 	esac
 	kernel_cmdline="dwc_otg.lpm_enable=0 console=tty1"
-	initrd_features="base bootchart squashfs ext4 f2fs kms mmc raid scsi usb"
+	initfs_features="base bootchart squashfs ext4 f2fs kms mmc raid scsi usb"
 	hostname="rpi"
 }
 
